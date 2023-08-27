@@ -1,43 +1,28 @@
-import csv
-import json
-import argparse
 from time import time
-from selenium.webdriver.common.by import By
-
-from datetime import datetime
-from urllib.parse import urljoin
-
-
-from selenium.webdriver.support.ui import WebDriverWait
 
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+import selenium
+
 from selenium.webdriver.chrome.options import Options
 
 from utlility import Utility
 
 start = time()  # Starting time
 print("Initiating the process....")
+
 ##### Selenium Chrome Driver
 options = Options()
-driver = webdriver.Chrome(
-
-)
-driver.maximize_window()
-driver.get("https://twitter.com/i/flow/login?lang=en")
-utility = Utility()
-
+driver = webdriver.Chrome() #Chrome window opens up
+login_page_url = "https://twitter.com/i/flow/login?lang=en"
+userhandle_page_url = "https://twitter.com/the_hindu"
+driver.maximize_window() # Maximises the winoow
+driver.get(login_page_url) # This will enter the starting url in search bar and laod it
+utility = Utility()  # Repository for all the functions
+print("Selenium version:", selenium.__version__)
 utility.sign_in(driver=driver)
-utility.search_feature(driver=driver)
-utility.open_tweeet(link="https://twitter.com/mohakmangal/status/1690720610358296576", driver=driver)
-# text=driver.find_element(By.XPATH,value = 'wvjLuicTEJvzCj3').text
-# print(text)
-
-# to fetch the text of element
-
+# WE reach to homepage at this point. Now we search for our first Userhandle to scrape tweets from.
+# utility.search_feature(driver=driver)
+utility.open_user_handle(link=userhandle_page_url, driver=driver)
 
 while True:
     pass
-
-
-
