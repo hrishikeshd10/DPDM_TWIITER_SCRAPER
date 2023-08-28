@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import json
 from selenium import webdriver
 import tweet as TWEET
+import csv
 import re
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
@@ -47,6 +48,16 @@ class Utility:
 
         workbook.save('twitter_comments.xlsx')
 
+
+    def write_to_csv(self, tweet:TWEET.Tweet):
+
+
+
+        with open('students.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+
+            writer.writerow(tweet.get_tweet_as_list())
+            file.close()
 
     def clear_excel(self):
         workbook = load_workbook('twitter_comments.xlsx')
@@ -102,11 +113,25 @@ class Utility:
 
 
 
-    def open_user_handle(self, driver: webdriver.Chrome, link):
+
+
+    def open_user_handle(self, driver: webdriver.Chrome, link, login_flag = False):
 
         driver.get(link) # opens the page at given link to user handle
         print("STartting")
         # driver.execute_script("document.body.style.zoom='50%'")
+
+#         LOGIN BUTTON AT THE BOTTOM:
+
+        if login_flag:
+
+            login_button_interactable = WebDriverWait(driver, timeout=self.timeout).until(
+                EC.element_to_be_clickable((By.XPATH,
+                                           "//*[@id='layers']/div/div[1]/div/div/div/div[2]/div[2]/div/div/div[1]/a")))
+            login_button_interactable.click()
+
+            self.sign_in(driver=driver)
+
 
         no_odf_scrolls = 30
         for i in range(0,no_odf_scrolls):
@@ -152,6 +177,7 @@ class Utility:
                      likes=likes
                  )
                  self.write_tweet_to_excel(tweet=tweet_model)
+
              except StaleElementReferenceException:
                  print("SKIPPING THE STALE ELEMENT REFERENCE AND PASSING")
                  pass
@@ -161,3 +187,4 @@ class Utility:
            driver.execute_script('window.scrollTo(0,document.body.scrollHeight);')
         # Close the WebDriver
         # driver.quit()
+
