@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 import json
 from selenium import webdriver
 import tweet as TWEET
+from csv import writer
 import csv
 import re
 from selenium.webdriver.chrome.service import Service
@@ -51,13 +52,17 @@ class Utility:
 
     def write_to_csv(self, tweet:TWEET.Tweet):
 
+        with open('student.csv', 'a') as f_object:
+            # Pass this file object to csv.writer()
+            # and get a writer object
+            writer_object = writer(f_object)
 
+            # Pass the list as an argument into
+            # the writerow()
+            writer_object.writerow(tweet.get_tweet_as_list())
 
-        with open('students.csv', 'w', newline='') as file:
-            writer = csv.writer(file)
-
-            writer.writerow(tweet.get_tweet_as_list())
-            file.close()
+            # Close the file object
+            f_object.close()
 
     def clear_excel(self):
         workbook = load_workbook('twitter_comments.xlsx')
@@ -176,7 +181,7 @@ class Utility:
                      quotes=0,
                      likes=likes
                  )
-                 self.write_tweet_to_excel(tweet=tweet_model)
+                 self.write_to_csv(tweet=tweet_model)
 
              except StaleElementReferenceException:
                  print("SKIPPING THE STALE ELEMENT REFERENCE AND PASSING")

@@ -11,11 +11,12 @@ print("Initiating the process....")
 options = Options()
 driver = webdriver.Chrome() #Chrome window opens up
 login_page_url = "https://twitter.com/i/flow/login?lang=en"
-userhandle_page_urls = [ "https://twitter.com/the_hindu" ,
-                         "https://twitter.com/timesofindia",
-                         # "https://twitter.com/Telegraph",
-                         "https://twitter.com/thewire_in",
-                         "https://twitter.com/IndianExpress",
+userhandle_page_urls = [
+    #"https://twitter.com/the_hindu" ,
+    #                      "https://twitter.com/timesofindia",
+                         #  "https://twitter.com/Telegraph",
+                         # "https://twitter.com/thewire_in",
+                         # "https://twitter.com/IndianExpress",
                          "https://twitter.com/HindustanTimes"
 
 
